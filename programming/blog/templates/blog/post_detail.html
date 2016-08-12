@@ -1,0 +1,53 @@
+{% extends "blog/layout.html" %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {{ post.title }}
+                </div>
+                <div class="panel-body">
+                    <p>by {{ post.author }}</p>
+
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ post.lat }},{{ post.lng }}&size=100x100&zoom=5&maptype=roadmap&markers=color:blue%7Clabel:S%7C{{ post.lat }},{{ post.lng }}" />
+
+                    {{ post.created_at }}
+                    {% for tag in post.tag_set.all %}
+                        {{ tag.name }}
+                    {% endfor %}
+                    <hr/>
+                    {{ post.content|linebreaks }}
+
+                    <a href="{% url "blog:comment_new" post.pk %}" class="btn btn-primary btn-block">
+                        댓글쓰기
+                    </a>
+
+                    {% for comment in post.comment_set.all %}
+                        <div class="media">
+                            {% if comment.jjal %}
+                                <img src="{{ comment.jjal.url }}" style="width: 75px; height: 75px;" />
+                            {% endif %}
+                            {{ comment.message }}
+                            by {{ comment.author }}
+                            <a href="{% url "blog:comment_edit" post.pk comment.pk %}">수정</a>
+                        </div>
+                    {% empty %}
+                        <div class="alert alert-info">첫번째 댓글의 주인공이 되어주세요.</div>
+                    {% endfor %}
+                </div>
+
+                <div class="panel-footer">
+                    <a href="{% url "blog:post_list" %}" class="btn btn-default">목록으로</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

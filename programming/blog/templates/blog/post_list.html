@@ -1,0 +1,32 @@
+{% extends "blog/layout.html" %}
+
+{% block content %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">P.rogramming Django</a>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>P.rogramming</h1>
+        <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p>
+    </div>
+
+    <ul>
+    {% for post in post_list %}
+        <li>
+            {% if post.photo %}
+                <img src="{{ post.photo.url }}" style="width: 75px; height: 75px;" />
+            {% endif %}
+            <a href="{% url "blog:post_detail" post.pk %}">
+                {{ post.title }}
+            </a>
+            by {{ post.author }}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

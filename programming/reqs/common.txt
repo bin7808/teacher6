@@ -1,0 +1,7 @@
+django==1.9.8
+requests
+beautifulsoup4
+pillow
+django-bootstrap3
+xmltodict
+
